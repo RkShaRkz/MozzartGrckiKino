@@ -38,9 +38,11 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.insert.koin.koin.android)
             implementation(libs.insert.koin.koin.androidx.compose) // For Compose
+            implementation(libs.androidx.lifecycle.viewmodel.android)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
+            implementation(libs.androidx.lifecycle.viewmodel.desktop)   //does this even work?
         }
         commonMain.dependencies {
             implementation(compose.runtime)

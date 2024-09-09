@@ -18,6 +18,8 @@ koinAndroidxCompose = "3.5.0"
 koinCore = "3.5.0"
 kotlin = "1.9.20"
 junit = "4.13.2"
+lifecycleViewmodelAndroid = "2.8.5"
+lifecycleViewmodelDesktop = "2.8.5"
 
 [libraries]
 insert-koin-koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
@@ -38,6 +40,8 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 androidx-material = { group = "com.google.android.material", name = "material", version.ref = "androidx-material" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+androidx-lifecycle-viewmodel-android = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-android", version.ref = "lifecycleViewmodelAndroid" }
+androidx-lifecycle-viewmodel-desktop = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-desktop", version.ref = "lifecycleViewmodelDesktop" }
 
 [plugins]
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
