@@ -13,10 +13,14 @@ androidx-material = "1.10.0"
 androidx-constraintlayout = "2.1.4"
 androidx-test-junit = "1.1.5"
 androidx-espresso-core = "3.5.1"
+koinAndroid = "3.5.0"
+koinAndroidxCompose = "3.5.0"
 kotlin = "1.9.20"
 junit = "4.13.2"
 
 [libraries]
+insert-koin-koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
+insert-koin-koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinAndroidxCompose" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
