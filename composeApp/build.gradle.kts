@@ -48,6 +48,7 @@ kotlin {
             implementation(compose.material)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
+            implementation(libs.insert.koin.koin.core) // Use the latest version
         }
     }
 }
