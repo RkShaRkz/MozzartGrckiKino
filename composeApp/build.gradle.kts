@@ -37,7 +37,7 @@ kotlin {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.insert.koin.koin.android)
-            implementation(libs.koin.androidx.compose) // For Compose
+            implementation(libs.insert.koin.koin.androidx.compose) // For Compose
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
