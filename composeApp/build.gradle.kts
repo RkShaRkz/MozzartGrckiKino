@@ -55,6 +55,7 @@ kotlin {
             implementation(libs.ktor.client.core) // Ktor core library
             implementation(libs.ktor.client.logging) // Logging for easier debugging
             implementation(libs.ktor.client.serialization) // JSON serialization
+            implementation(libs.kotlinx.datetime) // KMM date
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.ios) // iOS native engine
