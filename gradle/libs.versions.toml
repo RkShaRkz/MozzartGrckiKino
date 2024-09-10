@@ -22,8 +22,10 @@ kotlinxDatetime = "0.4.1"
 ktorClientCore = "2.3.4"
 lifecycleViewmodelAndroid = "2.8.5"
 lifecycleViewmodelDesktop = "2.8.5"
+navigationCompose = "2.8.0"
 
 [libraries]
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 insert-koin-koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
 insert-koin-koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinAndroidxCompose" }
 insert-koin-koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
