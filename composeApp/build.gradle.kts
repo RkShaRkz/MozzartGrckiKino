@@ -15,9 +15,9 @@ kotlin {
             }
         }
     }
-    
+
     jvm("desktop")
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -28,10 +28,10 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
         val desktopMain by getting
-        
+
         androidMain.dependencies {
             implementation(libs.compose.ui)
             implementation(libs.compose.ui.tooling.preview)
@@ -39,6 +39,7 @@ kotlin {
             implementation(libs.insert.koin.koin.android)
             implementation(libs.insert.koin.koin.androidx.compose) // For Compose
             implementation(libs.androidx.lifecycle.viewmodel.android)
+            implementation(libs.ktor.client.okhttp) // OkHttp engine for Android
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -51,6 +52,12 @@ kotlin {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
             implementation(libs.insert.koin.koin.core) // Use the latest version
+            implementation(libs.ktor.client.core) // Ktor core library
+            implementation(libs.ktor.client.logging) // Logging for easier debugging
+            implementation(libs.ktor.client.serialization) // JSON serialization
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.ios) // iOS native engine
         }
     }
 }
