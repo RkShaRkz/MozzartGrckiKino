@@ -1,6 +1,5 @@
-package koinModules
+package date
 
-import koinModules.`interface`.BaseDate
 import kotlinx.datetime.LocalDate
 
 class AndroidDate(year: Int, month: Int, day: Int): BaseDate {
@@ -23,5 +22,8 @@ class AndroidDate(year: Int, month: Int, day: Int): BaseDate {
             .replace("MM", month) // Handle 2-digit month
             .replace("dd", day) // Handle 2-digit day
     }
+}
 
+actual fun createDate(year: Int, month: Int, day: Int): BaseDate {
+    return AndroidDate(year, month, day)
 }

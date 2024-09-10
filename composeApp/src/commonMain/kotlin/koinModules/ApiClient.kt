@@ -5,7 +5,7 @@ import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.*
 import io.ktor.client.plugins.kotlinx.serializer.KotlinxSerializer
 import io.ktor.client.statement.bodyAsText
-import koinModules.`interface`.BaseDate
+import date.BaseDate
 
 class ApiClient {
     private val client = HttpClient {
