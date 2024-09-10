@@ -35,7 +35,7 @@ fun MainScreen() {
                         Icon(Icons.Default.List, contentDescription = "Game List")
                     }
                     IconButton(onClick = { navController.navigate("fragment2") }) {
-                        Icon(Icons.Default.Edit, contentDescription = "Fragment 2")
+                        Icon(Icons.Default.Edit, contentDescription = "Betting Table")
                     }
                     IconButton(onClick = { navController.navigate("fragment3") }) {
                         Icon(Icons.Default.CheckCircle, contentDescription = "Fragment 3")
@@ -46,8 +46,8 @@ fun MainScreen() {
     ) {
         NavHost(navController = navController, startDestination = "fragment1") {
             composable("fragment1") { FragmentGameList(navController) }
-            composable("fragment2") { Fragment2(navController) }
-            composable("fragment3") { Fragment3(navController) }
+            composable("fragment2") { FragmentBettingTable(navController) }
+            composable("fragment3") { FragmentDrawResults(navController) }
         }
     }
 }
