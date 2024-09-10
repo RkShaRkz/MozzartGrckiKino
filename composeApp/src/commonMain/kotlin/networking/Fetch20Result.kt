@@ -20,16 +20,17 @@ data class Fetch20Result(
     val drawId: Int,
     val drawTime: Long,
     private val stringStatus: String,
-    val status: DrawStatus = when(stringStatus) {
-        "active" -> DrawStatus.ACTIVE
-        "future" -> DrawStatus.FUTURE
-        else -> throw IllegalArgumentException("Status ${stringStatus} not covered by DrawStatus! Please add it")
-    },
     val drawBreak: Int,
     val visualDraw: Int,
     val pricePointsJson: String,
     val prizeCategoriesJsonArray: String,
     val wagerStatisticsJson: String
-)
+) {
+    val status: DrawStatus = when(stringStatus) {
+        "active" -> DrawStatus.ACTIVE
+        "future" -> DrawStatus.FUTURE
+        else -> throw IllegalArgumentException("Status ${stringStatus} not covered by DrawStatus! Please add it")
+    }
+}
 
 enum class DrawStatus { ACTIVE, FUTURE }
