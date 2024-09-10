@@ -24,7 +24,16 @@ class ApiClient {
         client.close()
     }
 
+    suspend fun fetchNext20Games(): String {
+        return fetchData("https://api.opap.gr/draws/v3.0/${GREEK_KINO_GAME_ID}/upcoming/20")
+    }
+
+    suspend fun fetchDrawByID(drawId: String): String {
+        return fetchData("https://api.opap.gr/draws/v3.0/${GREEK_KINO_GAME_ID}/${drawId}")
+    }
+
     companion object {
+        const val GREEK_KINO_GAME_ID = 1100
         const val SERIALIZER_KEY = "serializer"
     }
 }
