@@ -27,20 +27,6 @@ fun NavigationGraph(navController: NavHostController) {
             FragmentDrawResults(navController)
         }
         composable("fragment4") {
-            /*
-            FragmentWebView.newInstance(
-                "https://mozzartbet.com/sr/lotto-animation/26#",
-                navController
-            )
-                .apply {
-                    // Create and set the fragment as required
-                    val fragmentManager = (context as AppCompatActivity).supportFragmentManager
-                    val transaction = fragmentManager.beginTransaction()
-                    transaction.replace(R.id.fragment_container, this)
-                    transaction.addToBackStack(null)
-                    transaction.commit()
-                }
-             */
             WebViewScreen("https://mozzartbet.com/sr/lotto-animation/26#")
         }
     }
