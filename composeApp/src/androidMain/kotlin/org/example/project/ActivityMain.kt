@@ -41,7 +41,7 @@ fun MainScreen() {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("App Title") },
+                title = { Text("Grcki Kino") },
                 actions = {
                     IconButton(onClick = { navController.navigate("fragment1") }) {
                         Icon(Icons.Default.List, contentDescription = "Game List")
