@@ -41,7 +41,7 @@ fun FragmentBettingTable(navController: NavController, drawId: Int) {
     }
 
     LazyVerticalGrid(
-        columns = GridCells.Fixed(numColumns), // Creates 10 columns
+        columns = GridCells.Fixed(numColumns),
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)

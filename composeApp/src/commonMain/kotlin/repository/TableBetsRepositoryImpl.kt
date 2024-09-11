@@ -9,7 +9,6 @@ class TableBetsRepositoryImpl(val apiClient: ApiClient): TableBetsRepository {
 
     @Synchronized
     override fun getPlayedNumbersForTableId(tableId: Int): Set<Int> {
-        //TODO consider throwing here instead of returning an empty set
         return tableBetsMap.get(tableId) ?: setOf()
     }
 

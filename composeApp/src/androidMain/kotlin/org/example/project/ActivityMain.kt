@@ -33,6 +33,10 @@ class MainActivity : ComponentActivity() {
             MainScreen()
         }
     }
+
+    companion object {
+        const val BETTING_TABLE_ICON_ENABLED = false
+    }
 }
 
 
@@ -49,11 +53,13 @@ fun MainScreen() {
                     IconButton(onClick = { navController.navigate("fragment1") }) {
                         Icon(Icons.Default.List, contentDescription = "Game List")
                     }
-                    IconButton(onClick = { navController.navigate("fragment2") }) { //NO BOARD ID
-                        Icon(Icons.Default.Edit, contentDescription = "Betting Table")
+                    if (MainActivity.BETTING_TABLE_ICON_ENABLED) {
+                        IconButton(onClick = { navController.navigate("fragment2") }) { //NO BOARD ID
+                            Icon(Icons.Default.Edit, contentDescription = "Betting Table")
+                        }
                     }
                     IconButton(onClick = { navController.navigate("fragment3") }) {
-                        Icon(Icons.Default.CheckCircle, contentDescription = "Fragment 3")
+                        Icon(Icons.Default.CheckCircle, contentDescription = "Results List")
                     }
                 }
             )

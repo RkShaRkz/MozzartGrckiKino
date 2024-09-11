@@ -8,8 +8,6 @@ import repository.AvailableGamesRepositoryImpl
 import repository.TableBetsRepositoryImpl
 
 val commonModule = module {
-//    single<Repository> { RepositoryImpl() }
-//    factory<ViewModel> { ViewModel(get()) }
     factory<BaseViewModel> { createViewModel() }
     single<ApiClient> { ApiClient() }
     single<TableBetsRepository> { TableBetsRepositoryImpl(get()) } // Inject ApiClient into TableBetsRepositoryImpl

@@ -8,7 +8,6 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.json.Json
 import networking.Fetch20Result
 import kotlin.jvm.Synchronized
 
@@ -38,16 +37,7 @@ class AvailableGamesRepositoryImpl(val apiClient: ApiClient): AvailableGamesRepo
         return listOfGames
     }
 
-    fun remapJsonArrayToDomainObjects(stringJsonArray:String): List<Fetch20Result> {
-        // configure parser
-        val json = apiClient.json
-
-        val resultEntities: List<Fetch20Result> = json.decodeFromString(stringJsonArray)
-        // debug
-        resultEntities.forEach {
-            println(it)
-        }
-
-        return resultEntities
+    fun remapJsonArrayToDomainObjects(stringJsonArray: String): List<Fetch20Result> {
+        return apiClient.json.decodeFromString<List<Fetch20Result>>(stringJsonArray)
     }
 }
