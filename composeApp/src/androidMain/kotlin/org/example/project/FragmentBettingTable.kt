@@ -22,6 +22,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import koinModules.`interface`.TableBetsRepository
+import org.koin.androidx.compose.get
+import org.koin.compose.koinInject
 
 @Composable
 fun FragmentBettingTable(navController: NavController) {
@@ -29,8 +32,14 @@ fun FragmentBettingTable(navController: NavController) {
     val numColumns = 8//10
     val numberOfItems = numRows * numColumns    //80
 
-    //TODO move to repository
-    var selectedItems by remember { mutableStateOf(setOf<Int>()) }
+    val tableBetsRepository: TableBetsRepository = get()
+
+    val TABLE_ID = 123 //TODO change
+
+//    var selectedItems by remember { mutableStateOf(setOf<Int>()) }
+    var selectedItems by remember {
+        mutableStateOf(tableBetsRepository.getPlayedNumbersForTableId(TABLE_ID))
+    }
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(numColumns), // Creates 10 columns
@@ -48,6 +57,8 @@ fun FragmentBettingTable(navController: NavController) {
                     } else {
                         selectedItems + (number + 1) // Select the item
                     }
+
+                    tableBetsRepository.putPlayedNumbersForTableId(TABLE_ID, selectedItems)
                 }
             )
         }
@@ -83,67 +94,3 @@ fun NumberItem(
         }
     }
 }
-
-// THIS WORKS
-//@Composable
-//fun NumberItem(
-//    number: Int,
-//    isSelected: Boolean,
-//    onClick: () -> Unit
-//) {
-//    val backgroundColor = if (isSelected) Color.Green else Color.LightGray
-//
-//    Box(
-//        modifier = Modifier
-//            .padding(8.dp)
-//            .aspectRatio(1f)
-//            .clickable(onClick = onClick)
-//            .background(backgroundColor, CircleShape) // Apply background color directly
-//            .border(2.dp, Color.Red, CircleShape) // Add a border to visualize
-//    ) {
-//        Box(contentAlignment = Alignment.Center) {
-//            Text(
-//                text = number.toString(),
-//                style = MaterialTheme.typography.h6,
-//                fontSize = 18.sp
-//            )
-//        }
-//    }
-//}
-
-// THIS ONE NOT QUITE - fillMaxSize is breaking it
-//@Composable
-//fun NumberItem(
-//    number: Int,
-//    isSelected: Boolean,
-//    onClick: () -> Unit
-//) {
-//    // Log to verify recomposition
-//    Log.d("SHARK", "Recomposing NumberItem with number: $number, isSelected: $isSelected")
-//
-//    val backgroundColor = if (isSelected) Color.Green else Color.LightGray
-//
-//    Box(
-//        modifier = Modifier
-//            .padding(8.dp)
-//            .aspectRatio(1f) // Ensures the width and height are equal
-//            .clickable(onClick = onClick)
-//            .background(backgroundColor, CircleShape)
-//    ) {
-//        Surface(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .background(backgroundColor, CircleShape),
-//            shape = CircleShape,
-//            elevation = 4.dp
-//        ) {
-//            Box(contentAlignment = Alignment.Center) {
-//                Text(
-//                    text = number.toString(),
-//                    style = MaterialTheme.typography.h6,
-//                    fontSize = 18.sp
-//                )
-//            }
-//        }
-//    }
-//}
