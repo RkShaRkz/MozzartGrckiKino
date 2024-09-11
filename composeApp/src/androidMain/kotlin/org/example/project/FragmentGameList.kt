@@ -27,13 +27,15 @@ import androidx.navigation.NavController
 import koinModules.`interface`.AvailableGamesRepository
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.get
+import util.epochMillisToLocalTime
+import util.formatForGameList
 
 @Preview
 @Composable
 fun FragmentGameList(navController: NavController) {
     val tablesRepository: AvailableGamesRepository = get()
     val items by remember {
-        mutableStateOf(tablesRepository.getAvailableGames().map { result -> "${result.gameId} - ${result.status}" })
+        mutableStateOf(tablesRepository.getAvailableGames().map { result -> result.drawTime.epochMillisToLocalTime().formatForGameList() })
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
