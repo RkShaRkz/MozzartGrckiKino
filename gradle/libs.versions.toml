@@ -13,13 +13,15 @@ androidx-material = "1.10.0"
 androidx-constraintlayout = "2.1.4"
 androidx-test-junit = "1.1.5"
 androidx-espresso-core = "3.5.1"
+jetbrains-kotlinxSerializationCore = "1.5.0"
+jetbrains-kotlinxSerializationJson = "1.6.3"
 koinAndroid = "3.5.0"
 koinAndroidxCompose = "3.5.0"
 koinCore = "3.5.0"
 kotlin = "1.9.20"
 junit = "4.13.2"
 kotlinxDatetime = "0.4.1"
-ktorClientCore = "2.3.4"
+ktorClientCore = "2.3.12"
 lifecycleViewmodelAndroid = "2.8.5"
 lifecycleViewmodelDesktop = "2.8.5"
 navigationCompose = "2.8.0"
@@ -29,6 +31,8 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 insert-koin-koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
 insert-koin-koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinAndroidxCompose" }
 insert-koin-koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
+jetbrains-kotlinx-kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "jetbrains-kotlinxSerializationCore" }
+jetbrains-kotlinx-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "jetbrains-kotlinxSerializationJson" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -58,3 +62,4 @@ jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

@@ -3,6 +3,7 @@ import org.jetbrains.compose.ExperimentalComposeLibrary
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
 }
@@ -42,6 +43,8 @@ kotlin {
             implementation(libs.insert.koin.koin.androidx.compose) // For Compose
             implementation(libs.androidx.lifecycle.viewmodel.android)
             implementation(libs.ktor.client.okhttp) // OkHttp engine for Android
+            implementation(libs.jetbrains.kotlinx.kotlinx.serialization.core)
+            implementation(libs.jetbrains.kotlinx.kotlinx.serialization.json)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -58,6 +61,8 @@ kotlin {
             implementation(libs.ktor.client.logging) // Logging for easier debugging
             implementation(libs.ktor.client.serialization) // JSON serialization
             implementation(libs.kotlinx.datetime) // KMM date
+            implementation(libs.jetbrains.kotlinx.kotlinx.serialization.core)
+            implementation(libs.jetbrains.kotlinx.kotlinx.serialization.json)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.ios) // iOS native engine
