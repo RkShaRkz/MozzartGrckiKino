@@ -26,16 +26,21 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import koinModules.`interface`.AvailableGamesRepository
 import kotlinx.coroutines.delay
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDateTime
 import org.koin.androidx.compose.get
 import util.epochMillisToLocalTime
-import util.formatForGameList
+import util.formatForGameList_HH_MM
+import util.formatForGameList_MM_SS
+import util.minusToWholeSeconds
+import util.toLocalDateTime
 
 @Preview
 @Composable
 fun FragmentGameList(navController: NavController) {
     val tablesRepository: AvailableGamesRepository = get()
     val items by remember {
-        mutableStateOf(tablesRepository.getAvailableGames().map { result -> result.drawTime.epochMillisToLocalTime().formatForGameList() })
+        mutableStateOf(tablesRepository.getAvailableGames().map { result -> result.drawTime.epochMillisToLocalTime() })
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -61,14 +66,21 @@ fun FragmentGameList(navController: NavController) {
                         .padding(16.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(text = item)
-                    CountdownTimer(remainingSeconds = 60) // Example countdown timer
+                    Text(text = item.formatForGameList_HH_MM())
+                    CountdownTimer(remainingSeconds = calculateSecondsFromNow(item)) // Example countdown timer
                 }
 
                 Divider()
             }
         }
     }
+}
+
+fun calculateSecondsFromNow(whenTime: LocalDateTime): Int {
+    val now = Clock.System.now()
+    val diffTime = whenTime.minusToWholeSeconds(now.toLocalDateTime())
+
+    return diffTime.toInt()
 }
 
 @Composable
@@ -82,6 +94,6 @@ fun CountdownTimer(remainingSeconds: Int) {
         }
     }
 
-    Text(text = "Time left: $secondsLeft seconds")
+    Text(text = formatForGameList_MM_SS(secondsLeft))
 }
 
