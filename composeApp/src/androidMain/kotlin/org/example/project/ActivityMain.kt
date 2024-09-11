@@ -3,7 +3,11 @@ package org.example.project
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Edit
@@ -13,16 +17,26 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import koinModules.commonModule
+import koinModules.`interface`.AvailableGamesRepository
+import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 class MainActivity : ComponentActivity() {
+
+    lateinit var tablesRepository: AvailableGamesRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         startKoin {
             androidContext(applicationContext)
             modules(commonModule)
         }
+
+        // Inject the tables repository after starting koin
+        tablesRepository = get()
+        tablesRepository.getAvailableGamesFromNetwork()
+
         setContent {
             MainScreen()
         }

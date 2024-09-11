@@ -1,5 +1,7 @@
 package networking
 
+import kotlinx.serialization.Serializable
+
 /**
  * {
  * gameId: 1100, - ID Igre
@@ -15,6 +17,7 @@ package networking
  * }
  */
 
+@Serializable
 data class Fetch20Result(
     val gameId: Int,
     val drawId: Int,
