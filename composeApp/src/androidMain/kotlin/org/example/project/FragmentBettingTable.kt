@@ -27,16 +27,15 @@ import org.koin.androidx.compose.get
 import org.koin.compose.koinInject
 
 @Composable
-fun FragmentBettingTable(navController: NavController) {
-    val numRows = 10//8
-    val numColumns = 8//10
-    val numberOfItems = numRows * numColumns    //80
+fun FragmentBettingTable(navController: NavController, drawId: Int) {
+    val numRows = 10
+    val numColumns = 8
+    val numberOfItems = numRows * numColumns
 
     val tableBetsRepository: TableBetsRepository = get()
 
-    val TABLE_ID = 123 //TODO change
+    val TABLE_ID = drawId
 
-//    var selectedItems by remember { mutableStateOf(setOf<Int>()) }
     var selectedItems by remember {
         mutableStateOf(tableBetsRepository.getPlayedNumbersForTableId(TABLE_ID))
     }

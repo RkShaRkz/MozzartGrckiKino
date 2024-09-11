@@ -1,6 +1,7 @@
 package org.example.project
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -40,10 +41,14 @@ import util.toLocalDateTime
 fun FragmentGameList(navController: NavController) {
     val tablesRepository: AvailableGamesRepository = get()
     val items by remember {
-        mutableStateOf(tablesRepository.getAvailableGames().map { result -> result.drawTime.epochMillisToLocalTime() })
+        mutableStateOf(
+            tablesRepository.getAvailableGames()
+        )
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+    ) {
         Row(
             modifier = Modifier
                 .align(Alignment.TopCenter)
@@ -60,14 +65,19 @@ fun FragmentGameList(navController: NavController) {
             Modifier.padding(top = 64.dp)
         ) {
             items(items) { item ->
+                val itemEpochMillis = item.drawTime.epochMillisToLocalTime()
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
+                        .padding(16.dp)
+                        .clickable {
+                            val drawId = item.drawId
+                            navController.navigate("fragment2/$drawId")
+                        },
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(text = item.formatForGameList_HH_MM())
-                    CountdownTimer(remainingSeconds = calculateSecondsFromNow(item)) // Example countdown timer
+                    Text(text = itemEpochMillis.formatForGameList_HH_MM())
+                    CountdownTimer(remainingSeconds = calculateSecondsFromNow(itemEpochMillis))
                 }
 
                 Divider()

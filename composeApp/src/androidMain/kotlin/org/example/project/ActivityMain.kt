@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.List
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -34,6 +35,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
+
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
@@ -46,7 +49,7 @@ fun MainScreen() {
                     IconButton(onClick = { navController.navigate("fragment1") }) {
                         Icon(Icons.Default.List, contentDescription = "Game List")
                     }
-                    IconButton(onClick = { navController.navigate("fragment2") }) {
+                    IconButton(onClick = { navController.navigate("fragment2") }) { //NO BOARD ID
                         Icon(Icons.Default.Edit, contentDescription = "Betting Table")
                     }
                     IconButton(onClick = { navController.navigate("fragment3") }) {
@@ -56,10 +59,6 @@ fun MainScreen() {
             )
         }
     ) {
-        NavHost(navController = navController, startDestination = "fragment1") {
-            composable("fragment1") { FragmentGameList(navController) }
-            composable("fragment2") { FragmentBettingTable(navController) }
-            composable("fragment3") { FragmentDrawResults(navController) }
-        }
+        NavigationGraph(navController = navController)
     }
 }
