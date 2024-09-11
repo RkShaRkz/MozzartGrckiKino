@@ -50,6 +50,8 @@ fun FragmentBettingTable(navController: NavController, drawId: Int) {
     val TABLE_ID = drawId
     val currentGame = availableGamesRepository.findGameByDrawId(drawId)
 
+    val MAXIMUM_SELECTED_ITEMS = 15
+
     var selectedItems by remember {
         mutableStateOf(tableBetsRepository.getPlayedNumbersForTableId(TABLE_ID))
     }
@@ -70,8 +72,6 @@ fun FragmentBettingTable(navController: NavController, drawId: Int) {
 
         Column(
             modifier = Modifier
-//                .padding(start = 16.dp, top = 48.dp, end = 16.dp, bottom = 16.dp)
-//                .padding(start = 8.dp, top = 52.dp, end = 8.dp, bottom = 8.dp)
                 .padding(start = 0.dp, top = 52.dp, end = 0.dp, bottom = 8.dp)
                 .align(Alignment.TopCenter)
         ) {
@@ -120,9 +120,6 @@ fun FragmentBettingTable(navController: NavController, drawId: Int) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(start = 16.dp, top = 120.dp, end = 16.dp, bottom = 16.dp)       //96 is just 'barely there'
-//                .padding(start = 16.dp, top = 96.dp, end = 16.dp, bottom = 16.dp)       //80 is too low
-//                .padding(start = 16.dp, top = 72.dp, end = 16.dp, bottom = 16.dp)
-//                .padding(top = 72.dp) //16+48+8   //was 16
         ) {
             items(numberOfItems) { number ->
                 NumberItem(
@@ -132,13 +129,37 @@ fun FragmentBettingTable(navController: NavController, drawId: Int) {
                         selectedItems = if (selectedItems.contains(number + 1)) {
                             selectedItems - (number + 1) // Deselect the item
                         } else {
-                            selectedItems + (number + 1) // Select the item
+                            // Select only if we're below maximum selected items
+                            if (selectedItems.size < MAXIMUM_SELECTED_ITEMS) {
+                                selectedItems + (number + 1) // Select the item
+                            } else {
+                                // Do nothing
+                                selectedItems
+                            }
                         }
 
                         tableBetsRepository.putPlayedNumbersForTableId(TABLE_ID, selectedItems)
                     }
                 )
             }
+        }
+
+        // Show a message if max selection is reached
+        if (selectedItems.size == MAXIMUM_SELECTED_ITEMS) {
+            Text(
+                text = "You have reached the maximum selection of 15 items",
+                color = Color.Red,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .align(Alignment.BottomCenter)
+            )
+        } else {
+            Text(
+                text = "Selected items: ${selectedItems.size}",
+                modifier = Modifier
+                    .padding(8.dp)
+                    .align(Alignment.BottomCenter)
+            )
         }
     }
 }
