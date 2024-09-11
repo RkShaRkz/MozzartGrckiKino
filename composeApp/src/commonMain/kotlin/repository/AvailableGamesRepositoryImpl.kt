@@ -40,7 +40,7 @@ class AvailableGamesRepositoryImpl(val apiClient: ApiClient): AvailableGamesRepo
 
     fun remapJsonArrayToDomainObjects(stringJsonArray:String): List<Fetch20Result> {
         // configure parser
-        val json = Json { ignoreUnknownKeys=false }
+        val json = apiClient.json
 
         val resultEntities: List<Fetch20Result> = json.decodeFromString(stringJsonArray)
         // debug

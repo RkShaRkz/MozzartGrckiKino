@@ -6,6 +6,14 @@ import io.ktor.client.request.*
 import io.ktor.client.plugins.kotlinx.serializer.KotlinxSerializer
 import io.ktor.client.statement.bodyAsText
 import date.BaseDate
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
+import networking.DummyValue
+import networking.Fetch20Result
+import networking.PricePointAddon
+import networking.PricePoints
+import networking.PrizeCategory
+import networking.WagerStatistics
 
 class ApiClient {
     private val client = HttpClient {
@@ -15,6 +23,18 @@ class ApiClient {
         install(SERIALIZER_KEY) {
             KotlinxSerializer() // Uses Kotlinx Serialization
         }
+    }
+
+    val json = Json {
+        serializersModule = SerializersModule {
+            Fetch20Result.serializer()
+            PricePoints.serializer()
+            PricePointAddon.serializer()
+            PrizeCategory.serializer()
+            WagerStatistics.serializer()
+            DummyValue.serializer()
+        }
+        ignoreUnknownKeys = false
     }
 
     suspend fun fetchData(url: String): String {
