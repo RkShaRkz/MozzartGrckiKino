@@ -37,6 +37,10 @@ class AvailableGamesRepositoryImpl(val apiClient: ApiClient): AvailableGamesRepo
         return listOfGames
     }
 
+    override fun findGameByDrawId(drawId: Int): Fetch20Result? {
+        return listOfGames.find { item -> item.drawId == drawId }
+    }
+
     fun remapJsonArrayToDomainObjects(stringJsonArray: String): List<Fetch20Result> {
         return apiClient.json.decodeFromString<List<Fetch20Result>>(stringJsonArray)
     }

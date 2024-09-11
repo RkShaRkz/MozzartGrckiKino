@@ -16,4 +16,9 @@ interface AvailableGamesRepository {
      * Just return internal game list
      */
     fun getAvailableGames(): List<Fetch20Result>
+
+    /**
+     * Finds and returns the game with [drawId] or [null] if no such game is found
+     */
+    fun findGameByDrawId(drawId: Int): Fetch20Result?
 }

@@ -17,6 +17,23 @@ fun Instant.toLocalDateTime(timeZone: TimeZone = TimeZone.currentSystemDefault()
     return this.toLocalDateTime(timeZone)
 }
 
+fun LocalDateTime.formatForGameList_DD_MM_HH_MM(): String {
+    val day = this.dayOfMonth
+    val month = this.monthNumber
+    val hours = this.hour
+    val minutes = this.minute
+
+    // Format day/month to 2 numbers
+    val formattedDays = if (day < 10) "0$day" else "$day"
+    val formattedMonth = if (month < 10) "0$month" else "$month"
+
+    // Format as 'hh:mm'
+    val formattedHours = if (hours < 10) "0$hours" else "$hours"
+    val formattedMins = if(minutes < 10) "0$minutes" else "$minutes"
+
+    return "$formattedDays.$formattedMonth. $formattedHours:$formattedMins"
+}
+
 fun LocalDateTime.formatForGameList_HH_MM(): String {
     val hours = this.hour
     val minutes = this.minute
