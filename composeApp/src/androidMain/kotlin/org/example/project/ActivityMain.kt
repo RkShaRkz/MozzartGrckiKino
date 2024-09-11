@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -60,6 +61,9 @@ fun MainScreen() {
                     }
                     IconButton(onClick = { navController.navigate("fragment3") }) {
                         Icon(Icons.Default.CheckCircle, contentDescription = "Results List")
+                    }
+                    IconButton(onClick = { navController.navigate("fragment4") }) {
+                        Icon(Icons.Default.PlayArrow, contentDescription = "Watch Draw")
                     }
                 }
             )
