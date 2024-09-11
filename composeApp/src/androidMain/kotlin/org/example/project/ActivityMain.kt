@@ -16,25 +16,16 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import koinModules.commonModule
 import koinModules.`interface`.AvailableGamesRepository
-import org.koin.android.ext.android.get
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
+import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
 
-    lateinit var tablesRepository: AvailableGamesRepository
+    val tablesRepository: AvailableGamesRepository by inject<AvailableGamesRepository>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        startKoin {
-            androidContext(applicationContext)
-            modules(commonModule)
-        }
 
-        // Inject the tables repository after starting koin
-        tablesRepository = get()
         tablesRepository.getAvailableGamesFromNetwork()
 
         setContent {
