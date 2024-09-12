@@ -36,13 +36,18 @@ class TableBetsRepositoryImpl(val apiClient: ApiClient) : TableBetsRepository {
         tableBetsMap.put(tableId, playedNumbers)
     }
 
+    override fun getAllResults(): List<ResultsItem> {
+        return listOfResults
+    }
+
     /**
-     * Fetches teh result for a particular table. [tableId] is essentially the same as [Fetch20Result.drawId]
+     * Gets the result for a particular table from already pulled (cached) results.
+     * [tableId] is essentially the same as [Fetch20Result.drawId]
      *
      * @param tableId the drawId to match
      * @return the table/game with that drawId or null if nothing is found
      */
-    override fun fetchTableResultsForTableId(tableId: Int): ResultsItem? {
+    override fun getTableResultsForTableId(tableId: Int): ResultsItem? {
         // Find the result with the matching drawId
         return listOfResults.find { resultItem -> resultItem.drawId == tableId }
     }
