@@ -10,10 +10,15 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import networking.DummyValue
 import networking.Fetch20Result
+import networking.FetchResultsResult
+import networking.ResultsItem
 import networking.PricePointAddon
 import networking.PricePoints
 import networking.PrizeCategory
+import networking.Sidebets
+import networking.SortItem
 import networking.WagerStatistics
+import networking.WinningNumbers
 
 class ApiClient {
     private val client = HttpClient {
@@ -27,12 +32,19 @@ class ApiClient {
 
     val json = Json {
         serializersModule = SerializersModule {
+            // fetch 20 games
             Fetch20Result.serializer()
             PricePoints.serializer()
             PricePointAddon.serializer()
             PrizeCategory.serializer()
             WagerStatistics.serializer()
             DummyValue.serializer()
+            // Fetch results
+            FetchResultsResult.serializer()
+            SortItem.serializer()
+            ResultsItem.serializer()
+            WinningNumbers.serializer()
+            Sidebets.serializer()
         }
         ignoreUnknownKeys = false
     }

@@ -39,6 +39,7 @@ data class Fetch20Result(
     val status: DrawStatus = when(stringStatus) {
         "active" -> DrawStatus.ACTIVE
         "future" -> DrawStatus.FUTURE
+        "results" -> DrawStatus.RESULTS
         else -> throw IllegalArgumentException("Status ${stringStatus} not covered by DrawStatus! Please add it")
     }
 
@@ -125,4 +126,4 @@ data class DummyValue(
     val bla: Int    //hopefully these wont happen
 )
 
-enum class DrawStatus { ACTIVE, FUTURE }
+enum class DrawStatus { ACTIVE, FUTURE, RESULTS }
