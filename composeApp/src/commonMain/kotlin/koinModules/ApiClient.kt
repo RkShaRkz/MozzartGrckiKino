@@ -57,7 +57,7 @@ class ApiClient {
         val pattern = "yyyy-MM-dd"
         val fromDateString = fromDate.format(pattern)
         val toDateString = toDate.format(pattern)
-        return fetchData("https://api.opap.gr/draws/v3.0/{gameId}/draw-date/${fromDateString}/${toDateString}")
+        return fetchData("https://api.opap.gr/draws/v3.0/${GREEK_KINO_GAME_ID}/draw-date/${fromDateString}/${toDateString}")
     }
 
     companion object {

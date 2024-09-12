@@ -10,4 +10,6 @@ interface TableBetsRepository {
     fun putPlayedNumbersForTableId(tableId: Int, playedNumbers: Set<Int>)
 
     fun fetchTableResultsForTableId(tableId: Int)
+
+    fun fetchResultsFromNetwork(): String
 }
