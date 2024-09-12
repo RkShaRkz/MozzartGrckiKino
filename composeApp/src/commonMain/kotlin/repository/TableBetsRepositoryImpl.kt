@@ -11,17 +11,20 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Clock
-import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.minus
-import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
+import networking.Fetch20Result
+import networking.FetchResultsResult
+import networking.ResultsItem
 import kotlin.jvm.Synchronized
 
 class TableBetsRepositoryImpl(val apiClient: ApiClient) : TableBetsRepository {
     private val coroutineScope = CoroutineScope(Dispatchers.IO + Job())
     val tableBetsMap: HashMap<Int, Set<Int>> = hashMapOf()
+
+    lateinit var result: FetchResultsResult
+    val listOfResults = mutableListOf<ResultsItem>()
 
     @Synchronized
     override fun getPlayedNumbersForTableId(tableId: Int): Set<Int> {
@@ -33,11 +36,18 @@ class TableBetsRepositoryImpl(val apiClient: ApiClient) : TableBetsRepository {
         tableBetsMap.put(tableId, playedNumbers)
     }
 
-    override fun fetchTableResultsForTableId(tableId: Int) {
-        TODO("Not yet implemented")
+    /**
+     * Fetches teh result for a particular table. [tableId] is essentially the same as [Fetch20Result.drawId]
+     *
+     * @param tableId the drawId to match
+     * @return the table/game with that drawId or null if nothing is found
+     */
+    override fun fetchTableResultsForTableId(tableId: Int): ResultsItem? {
+        // Find the result with the matching drawId
+        return listOfResults.find { resultItem -> resultItem.drawId == tableId }
     }
 
-    override fun fetchResultsFromNetwork(): String {
+    override fun fetchResultsFromNetwork(): FetchResultsResult {
         // I want this to be a blocking call and not a suspend method to be blocked on the calling side so...
         return runBlocking {
             coroutineScope.async {
@@ -47,20 +57,25 @@ class TableBetsRepositoryImpl(val apiClient: ApiClient) : TableBetsRepository {
 //                val resultsJsonArray = apiClient.fetchResults(yesterday, tomorrow)
                 // So we will have to do the next best thing - fetching results from today to today
                 val today = createTodaysDate()
-                val resultsJsonArray = apiClient.fetchResults(today, today)
-//                val values = remapJsonArrayToDomainObjects(next20gamesJsonArray)
+                val resultsJson = apiClient.fetchResults(today, today)
 
-                // Set our list of games to the fetched results
-//                listOfGames.clear()
-//                listOfGames.addAll(values)
+                result = remapJsonArrayToDomainObjects(resultsJson)
+
+                // Set our list of results to the fetched results
+                listOfResults.clear()
+                listOfResults.addAll(result.results)
 
                 //return values
-//                values
-                resultsJsonArray
+                result
             }.await()
         }
     }
 
+    fun remapJsonArrayToDomainObjects(stringJsonArray: String): FetchResultsResult {
+        return apiClient.json.decodeFromString<FetchResultsResult>(stringJsonArray)
+    }
+
+    /*
     fun createYesterdaysDate(): BaseDate {
         val yesterday = getYesterday()
 
@@ -84,6 +99,7 @@ class TableBetsRepositoryImpl(val apiClient: ApiClient) : TableBetsRepository {
         val tomorrowDate = currentDateTime.date.plus(1, DateTimeUnit.DAY)
         return LocalDateTime(tomorrowDate, currentDateTime.time)
     }
+     */
 
     fun createTodaysDate(): BaseDate {
         val today = getToday()

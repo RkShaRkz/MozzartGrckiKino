@@ -1,5 +1,8 @@
 package koinModules.`interface`
 
+import networking.FetchResultsResult
+import networking.ResultsItem
+
 /**
  * Repository that holds all bets (played numbers) for a particular table (drawId)
  */
@@ -9,7 +12,7 @@ interface TableBetsRepository {
 
     fun putPlayedNumbersForTableId(tableId: Int, playedNumbers: Set<Int>)
 
-    fun fetchTableResultsForTableId(tableId: Int)
+    fun fetchTableResultsForTableId(tableId: Int): ResultsItem?
 
-    fun fetchResultsFromNetwork(): String
+    fun fetchResultsFromNetwork(): FetchResultsResult
 }
