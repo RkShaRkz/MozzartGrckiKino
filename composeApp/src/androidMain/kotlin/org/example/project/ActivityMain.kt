@@ -19,16 +19,19 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import koinModules.`interface`.AvailableGamesRepository
+import koinModules.`interface`.TableBetsRepository
 import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
 
     val tablesRepository: AvailableGamesRepository by inject<AvailableGamesRepository>()
+    val tableBetsRepository: TableBetsRepository by inject<TableBetsRepository>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         tablesRepository.getAvailableGamesFromNetwork()
+        tableBetsRepository.fetchResultsFromNetwork()
 
         setContent {
             MainScreen()
