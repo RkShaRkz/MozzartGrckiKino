@@ -65,3 +65,30 @@ fun formatForGameList_MM_SS(seconds: Long): String {
 fun formatForGameList_MM_SS(seconds: Int): String {
     return formatForGameList_MM_SS(seconds.toLong())
 }
+
+/**
+ * Returns a list that has all the items that the [numberSet] has and some added bogus (negative)
+ * numbers so it's size is cleanly-divisible with [rowLength] to avoid having disproportionate
+ * number of items per row
+ */
+fun fillInSetSizeToMatchRowWidth(numberSet: Set<Int>, rowLength: Int): List<Int> {
+    // To fill in, we need to see how much 'over' we are.
+    // We cannot (should not) delete numbers from the set, but we can add more insignificant numbers
+    val retVal = mutableListOf<Int>()
+    retVal.addAll(numberSet)
+
+    val howManyOver = numberSet.size % rowLength
+    // If we're even we don't need to add anything
+    if (howManyOver > 0) {
+        // With the 'howManyOver' calculated, we need to add the inverse value to fill it up to width
+        val howMuchToAdd = rowLength - howManyOver
+
+        // And finally add those things in
+        for (i in 0 until howMuchToAdd) {
+            // Lets add negative numbers so we can filter them out later if we need to
+            retVal.add(-i)
+        }
+    }
+
+    return retVal.toList()
+}
