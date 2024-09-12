@@ -9,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -18,6 +19,7 @@ import koinModules.`interface`.TableBetsRepository
 import networking.ResultsItem
 import org.koin.androidx.compose.get
 import util.epochMillisToLocalTime
+import util.fillInSetSizeToMatchRowWidth
 import util.formatForGameList_HH_MM
 
 @Composable
@@ -25,7 +27,6 @@ fun FragmentDrawResults(navController: NavController) {
     val NUMBER_OF_RESULT_COLUMNS = 5 //aka 'the number of items per row'
 
     val tableBetsRepository: TableBetsRepository = get()
-    val availableGamesRepository: AvailableGamesRepository = get()
 
     // Refresh the results
     tableBetsRepository.fetchResultsFromNetwork()
@@ -33,10 +34,6 @@ fun FragmentDrawResults(navController: NavController) {
 
     var results by remember {
         mutableStateOf(tableBetsRepository.getAllResults())
-    }
-
-    var tableIdsFromResults by remember {
-        mutableStateOf(tableBetsRepository.getAllResults().map { result -> result.drawId })
     }
 
     /**
@@ -84,11 +81,13 @@ fun FragmentDrawResults(navController: NavController) {
                 // that will be used to display results
                 val winningNumbersList = resultItem.winningNumbers.numbersList
                 val playedNumbersList = tableBetsRepository.getPlayedNumbersForTableId(resultItem.drawId).toList()
-                //TODO expand this set so that it fills up the whole row because this can look very ugly
-                // when the last row has e.g. 2 items and they take up a whole lot of space and disturb the UI/UX
                 val allRelevantNumbers = getUnifiedSetOfNumbers(resultItem, tableBetsRepository)
+                // We will expand this list so that we end up having a cleanly-divisible number of items
+                // with the number of columns, this will avout the UI/UX problem when the last row has
+                // eg 1 or 2 items where they grow to be as big a 3-4 rows above it
+                val showingList = fillInSetSizeToMatchRowWidth(allRelevantNumbers, NUMBER_OF_RESULT_COLUMNS)
 
-                ResultTable(allRelevantNumbers.toList(), 5, winningNumbersList, playedNumbersList)
+                ResultTable(showingList, NUMBER_OF_RESULT_COLUMNS, winningNumbersList, playedNumbersList)
             }
         }
     }
@@ -121,9 +120,15 @@ fun ResultNumberItem(
         NumberState.INSIGNIFICANT -> Color.Transparent
     }
 
+    // Since the only way to have insignificant items is for them to be in neither the played or
+    // the results lists, we don't even need to see them. So make their alpha 0 which effectivelly
+    // makes them still take up visual space, but being entirely invisible
+    val visibilityAlpha = if(numberState == NumberState.INSIGNIFICANT) 0f else 1f
+
     Surface(
         modifier = Modifier
             .padding(8.dp)
+            .alpha(visibilityAlpha)
             .aspectRatio(1f), // Ensure the item is square
         shape = CircleShape,
         color = backgroundColor, // Apply the background color via Surface
@@ -131,7 +136,9 @@ fun ResultNumberItem(
     ) {
         Box(
             contentAlignment = Alignment.Center, // Center the number
-            modifier = Modifier.fillMaxSize() // Ensure the Box fills the Surface
+            modifier = Modifier
+                .fillMaxSize() // Ensure the Box fills the Surface
+                .alpha(visibilityAlpha) // Apply my visibility hack
         ) {
             Text(
                 text = number.toString(),
@@ -147,8 +154,8 @@ fun ResultTable(allRelevantNumbers: List<Int>, numColumns: Int, winningNumbersLi
     Column(
         modifier = Modifier
             .fillMaxWidth()
-//            .padding(32.dp) //16.dp is too small    //32.dp cuts into the title box
-            .padding(top = 48.dp, start = 32.dp, end = 32.dp, bottom = 32.dp)   //32.dp cuts into the title box but looks fine everywhere else, so use more on top
+            //32.dp cuts into the title box but looks fine everywhere else, so use more on top
+            .padding(top = 60.dp, start = 32.dp, end = 32.dp, bottom = 16.dp)
     ) {
         // Create rows out of all relevant numbers
         allRelevantNumbers.chunked(numColumns).forEach { rowItems ->
@@ -162,12 +169,8 @@ fun ResultTable(allRelevantNumbers: List<Int>, numColumns: Int, winningNumbersLi
                         modifier = Modifier
                             .weight(1f) // Ensure equal width for each item
                             .padding(4.dp),
-//                            .background(Color.LightGray),
                         contentAlignment = Alignment.Center
                     ) {
-//                        Text(text = number.toString())
-//                        android.util.Log.wtf("SHARK", "rowItems: ${rowItems}, number: ${number}")
-//                        val numberItem = number //if (number < allRelevantNumbers.size) allRelevantNumbers.get(number) else 0
                         ResultNumberItem(
                             number = number,
                             isInResults = winningNumbersList.contains(number),
